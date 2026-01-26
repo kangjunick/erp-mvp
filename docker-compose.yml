@@ -13,6 +13,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        # 루트 .env의 값을 "프론트 빌드 시점"에 주입 (Vite는 build 시 env를 번들에 포함)
+        # 주의: docker-compose는 실행 시점의 환경변수에서 읽음. .env를 export 해야 함
+        VITE_SUPABASE_URL: ${SUPABASE_URL}
+        VITE_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+        # 배포환경에서는 nginx가 /api를 backend로 프록시하므로 상대경로 권장
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
     expose:
       - "80"
     restart: unless-stopped
