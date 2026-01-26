@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pandas
+openpyxl
+python-multipart
+supabase
+pydantic-settings
+solapi
